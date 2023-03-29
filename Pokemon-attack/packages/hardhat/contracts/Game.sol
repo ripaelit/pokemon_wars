@@ -14,7 +14,8 @@ contract PokemonAttack is ERC1155LazyMint {
     uint256 gameEndingTime;
     uint256 playersPlayed;
     bool gameActive;
-    address[] allplayers;
+    address[] allPlayers;
+    address winner;
   }
 
   mapping(uint256 => Game) public games;
@@ -65,7 +66,7 @@ contract PokemonAttack is ERC1155LazyMint {
   function claimLevelOnePickachu() external isGameActive CheckGameTime {
     // run a check to see if the game is active
     claim(msg.sender, 0, 1);
-    games[gameId].allplayers.push(msg.sender);
+    games[gameId].allPlayers.push(msg.sender);
     games[gameId].playersPlayed += 1;
     // emit an event
   }
@@ -136,15 +137,32 @@ contract PokemonAttack is ERC1155LazyMint {
     // fire an event
   }
 
-  function getScore(address player) external view returns (uint256) {
+  function getScore(address player) public view returns (uint256) {
     return balanceOf[player][2] + 1 * balanceOf[player][3] + 3;
+  }
+
+  /*
+  @dev
+  */
+  function rewardWinner(address _player) external {
+    Game storage _game = games[gameId];
+    require(block.timestamp > _game.gameEndingTime, "GAME_ONGOING");
+    address winner = _game.allPlayers[0];
+    for (uint256 i = 1; i < _game.allPlayers.length; ++i) {
+      uint256 playerScore = getScore(_game.allPlayers[i]);
+      uint256 currentWinnerScore = getScore(winner);
+      if (playerScore > currentWinnerScore) {
+        winner = _game.allPlayers[i];
+      }
+    }
+    // reward winner
   }
 
   /*
   @dev Getter function to get all the players
   */
   function getPlayers(uint256 _id) public view returns (address[] memory) {
-    return games[_id].allplayers;
+    return games[_id].allPlayers;
   }
 
   /*
