@@ -54,11 +54,15 @@ contract PokemonAttack is ERC1155LazyMint {
     _;
   }
 
+  modifier CheckGameTime() {
+    require(games[gameId].gameEndingTime > block.timestamp, "GAME ENDED");
+    _;
+  }
+
   /*
   @dev claim a level one pickachu to start playing
   */
-  function claimLevelOnePickachu() external isGameActive {
-    require(games[gameId].gameEndingTime > block.timestamp, "GAME ENDED");
+  function claimLevelOnePickachu() external isGameActive CheckGameTime {
     // run a check to see if the game is active
     claim(msg.sender, 0, 1);
     games[gameId].allplayers.push(msg.sender);
@@ -75,14 +79,25 @@ contract PokemonAttack is ERC1155LazyMint {
     uint256 id,
     uint256 amount,
     bytes memory data
-  ) public override isGameActive {
-    require(games[gameId].gameEndingTime > block.timestamp, "GAME ENDED");
+  ) public override isGameActive CheckGameTime {
     require(id == 0, "This NFT is not transferrable");
     super.safeTransferFrom(from, to, id, amount, data);
     if (from != to && id == 0) {
       // transferring level 1 pickachu should give the user a level 2 pickachu
       _mint(msg.sender, 1, 1, "");
       // emit events here
+    }
+  }
+
+  /*
+  @dev Burn a level 2 pickachu to upgrade to a level 3 pickachu
+  */
+  function burn(address account, uint256 id, uint256 amount) external override isGameActive CheckGameTime {
+    require(msg.sender == account || balanceOf[msg.sender][2] > 0, "Not Token Owner or no level 3 pickachu");
+    _burn(msg.sender, 1, 1);
+    if (id == 1) {
+      _mint(msg.sender, 2, 1, "");
+      // emit an event
     }
   }
 
@@ -99,6 +114,37 @@ contract PokemonAttack is ERC1155LazyMint {
     require(balanceOf[msg.sender][0] == 0, "Already got a level 1 pickachu");
     require(balanceOf[msg.sender][1] == 0, "Already got a level 2 pickachu");
     require(balanceOf[msg.sender][2] == 0, "Already got a level 3 pickachu");
+  }
+
+  /*
+  @dev Attack other players and earn points
+  */
+  function attack(address _victim) external isGameActive CheckGameTime {
+    require(balanceOf[msg.sender][2] > 0, "You don't own a level 3 pickachu to attack");
+    uint256 tokenToAttack = 0;
+    if (balanceOf[_victim][0] > 0) {
+      tokenToAttack = 0;
+    } else if (balanceOf[_victim][1] > 0) {
+      tokenToAttack = 1;
+    } else if (balanceOf[_victim][2] > 0) {
+      tokenToAttack = 2;
+    } else {
+      revert("Address has no NFT");
+    }
+    _burn(_victim, tokenToAttack, 1);
+    _mint(msg.sender, 3, 1, "");
+    // fire an event
+  }
+
+  function getScore(address player) external view returns (uint256) {
+    return balanceOf[player][2] + 1 * balanceOf[player][3] + 3;
+  }
+
+  /*
+  @dev Getter function to get all the players
+  */
+  function getPlayers(uint256 _id) public view returns (address[] memory) {
+    return games[_id].allplayers;
   }
 
   /*
