@@ -21,7 +21,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  await deploy("Game", {
+  await deploy("PokemonAttack", {
     from: deployer,
     // Contract constructor arguments
     args: ["name", "symbol", deployer, 0],
@@ -39,4 +39,4 @@ export default deployYourContract;
 
 // Tags are useful if you have multiple deploy files and only want to run one of them.
 // e.g. yarn deploy --tags YourContract
-deployYourContract.tags = ["Game"];
+deployYourContract.tags = ["PokemonAttack"];
