@@ -11,7 +11,7 @@ const Hero = () => {
             Welcome to <span className="text-3xl text-skin-base my-4 leading-tight lg:text-4xl tracking-tighter
             bg-gradient-to-r bg-clip-text text-transparent
             from-[#C339AD] via-[#CD4CB5] to-purple-500
-            animate-text">Pokemon-wars</span>
+            animate-text">Pokemon-Wars</span>
           </h2>
           <p className="text-base text-skin-muted dark:text-skin-darkMuted lg:text-lg sm:mb-12">
            Unlease the power of your Pokemon by leveling up and attacking other players, Earn points, win battles and take all by winning all the Eth in the Game.
