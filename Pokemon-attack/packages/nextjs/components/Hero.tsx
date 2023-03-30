@@ -14,7 +14,7 @@ const Hero = () => {
             animate-text">Pokemon-wars</span>
           </h2>
           <p className="text-base text-skin-muted dark:text-skin-darkMuted lg:text-lg sm:mb-12">
-           Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur suscipit sint, delectus sequi est cum minima harum nulla?
+           Unlease the power of your Pokemon by leveling up and attacking other players, Earn points, win battles and take all by winning all the Eth in the Game.
           </p>
           <div
           className="flex flex-col sm:flex-row"
