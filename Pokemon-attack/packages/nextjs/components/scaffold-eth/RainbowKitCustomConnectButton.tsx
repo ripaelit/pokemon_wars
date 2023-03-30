@@ -1,75 +1,102 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import { Balance, BlockieAvatar } from "~~/components/scaffold-eth";
-import { useAutoConnect, useNetworkColor } from "~~/hooks/scaffold-eth";
-import { getTargetNetwork } from "~~/utils/scaffold-eth";
 
-/**
- * Custom Wagmi Connect Button (watch balance + custom design)
- */
 export const RainbowKitCustomConnectButton = () => {
-  useAutoConnect();
-
-  const networkColor = useNetworkColor();
-  const configuredNetwork = getTargetNetwork();
-
   return (
     <ConnectButton.Custom>
-      {({ account, chain, openAccountModal, openConnectModal, openChainModal, mounted }) => {
-        const connected = mounted && account && chain;
+      {({
+        account,
+        chain,
+        openAccountModal,
+        openChainModal,
+        openConnectModal,
+        authenticationStatus,
+        mounted,
+      }) => {
+        // Note: If your app doesn't use authentication, you
+        // can remove all 'authenticationStatus' checks
+        const ready = mounted && authenticationStatus !== "loading";
+        const connected =
+          ready &&
+          account &&
+          chain &&
+          (!authenticationStatus || authenticationStatus === "authenticated");
 
         return (
-          <>
+          <div
+            className="play-btn bg-gradient-to-l from-[#8900FF] to-[#D000FF] sm:px-3 pt-1 pb-2 animate-text text-2xl bg-[#0A0A0A] text-white rounded-sm"
+            {...(!ready && {
+              "aria-hidden": true,
+              style: {
+                opacity: 0,
+                pointerEvents: "none",
+                userSelect: "none",
+              },
+            })}
+          >
             {(() => {
               if (!connected) {
                 return (
-                  <button className="btn btn-primary btn-sm" onClick={openConnectModal} type="button">
+                  <span
+                    onClick={openConnectModal}
+                    className="text-xl play-btn px-2 cursor-pointer animate-text hover:animate-text-hover"
+                  >
                     Connect Wallet
+                  </span>
+                );
+              }
+
+              if (chain.unsupported) {
+                return (
+                  <button onClick={openChainModal} type="button">
+                    Wrong network
                   </button>
                 );
               }
 
-              if (chain.unsupported || chain.id !== configuredNetwork.id) {
-                return (
-                  <>
-                    <span className="text-xs" style={{ color: networkColor }}>
-                      {configuredNetwork.name}
-                    </span>
-                    <button className="btn btn-sm btn-error ml-2" onClick={openChainModal} type="button">
-                      <span>Wrong network</span>
-                      <ChevronDownIcon className="h-6 w-4 ml-2 sm:ml-0" />
-                    </button>
-                  </>
-                );
-              }
-
               return (
-                <div className="px-2 flex justify-end items-center">
-                  <div className="flex justify-center items-center border-1 rounded-lg">
-                    <div className="flex flex-col items-center">
-                      <Balance address={account.address} className="min-h-0 h-auto" />
-                      <span className="text-xs" style={{ color: networkColor }}>
-                        {chain.name}
-                      </span>
-                    </div>
-                    <button
-                      onClick={openAccountModal}
-                      type="button"
-                      className="btn btn-secondary btn-sm pl-0 pr-2 shadow-md"
-                    >
-                      <BlockieAvatar address={account.address} size={24} ensImage={account.ensAvatar} />
-                      <span className="ml-2 mr-1">{account.displayName}</span>
-                      <span>
-                        <ChevronDownIcon className="h-6 w-4" />
-                      </span>
-                    </button>
-                  </div>
+                <div style={{ display: "flex", gap: 12 }}>
+                  <button
+                    onClick={openChainModal}
+                    style={{ display: "flex", alignItems: "center" }}
+                    type="button"
+                  >
+                    {chain.hasIcon && (
+                      <div
+                        style={{
+                          background: chain.iconBackground,
+                          width: 30,
+                          height: 30,
+                          borderRadius: 999,
+                          overflow: "hidden",
+                          marginRight: 4,
+                        }}
+                      >
+                        {chain.iconUrl && (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            alt={chain.name ?? "Chain icon"}
+                            src={chain.iconUrl}
+                            style={{ width: 30, height: 30 }}
+                          />
+                        )}
+                      </div>
+                    )}
+                    {/* {chain.name} */}
+                  </button>
+
+                  <button onClick={openAccountModal} type="button">
+                    {/* {account.displayName} */}
+                    {account.displayBalance
+                      ? ` (${account.displayBalance})`
+                      : ""}
+                  </button>
                 </div>
               );
             })()}
-          </>
+          </div>
         );
       }}
     </ConnectButton.Custom>
   );
 };
+export default RainbowKitCustomConnectButton;

@@ -9,6 +9,7 @@
 
 body {
   min-height: 100vh;
+  background-color: #0A0A14;
 }
 
 h1,
@@ -23,10 +24,8 @@ p {
   margin: 1rem 0;
 }
 
-.btn {
-  @apply shadow-md;
-}
-
-.btn.btn-ghost {
-  @apply shadow-none;
+@layer {
+  body {
+    @apply font-Poppins
+  }
 }
