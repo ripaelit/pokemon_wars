@@ -54,9 +54,10 @@ export const RainbowKitCustomConnectButton = () => {
               }
 
               return (
-                <div style={{ display: "flex", gap: 12 }}>
+                <div style={{ display: "flex", gap: 12, paddingTop: 5 }}
+                onClick={openChainModal}
+                >
                   <button
-                    onClick={openChainModal}
                     style={{ display: "flex", alignItems: "center" }}
                     type="button"
                   >
