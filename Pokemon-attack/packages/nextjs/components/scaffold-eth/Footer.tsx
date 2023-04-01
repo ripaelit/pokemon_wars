@@ -6,7 +6,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-transparent px-2 sm:px-14 py-2 mt-12 flex items-center justify-between border-t-[0.1px]">
+    <footer className="sticky top-full bg-transparent px-2 sm:px-14 py-2 mt-12 flex items-center justify-between border-t-[0.1px]">
       <p className="text-white font-extralight">
         Built with ❤️ by{" "}
         <span className="cursor-pointer text-blue-400" onClick={handleClick}>
