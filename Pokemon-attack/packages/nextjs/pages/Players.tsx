@@ -15,7 +15,6 @@ const Players = () => {
                 <p className="lg:ml-10">Address</p>
                 <p className="lg:ml-32">Score</p>
             </div>
-            {/* Component here */}
             </div>
             <div className="flex flex-col items-center">
             <PlayerDetails />
