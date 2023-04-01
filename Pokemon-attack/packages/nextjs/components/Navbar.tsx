@@ -56,7 +56,7 @@ const Navbar = () => {
             </button>
           </div>
         </Link>
-        <Link href="/">
+        <Link href="/Leaderboards">
           <div className="cursor-pointer relative group py-0.5 px-0.5">
             <button
               className="relative group-hover:border-t-2 border-[#fff] py-1 transition-all"
@@ -65,7 +65,7 @@ const Navbar = () => {
             </button>
           </div>
         </Link>
-        <Link href="/Deployer">
+        <Link href="/Players">
           <div className="cursor-pointer relative group py-0.5 px-0.5 ">
             <button
               className="relative group-hover:border-t-2 border-[#fff] py-1 transition-all"
@@ -105,14 +105,14 @@ const Navbar = () => {
             </Link>
           </div>
           <ul className=" flex flex-col justify-evenly items-center basis-2/6 items-start">
-            <Link href="/Explorer">
+            <Link href="/Leaderboards">
               <button
                 className="cursor-pointer transition-all text-3xl mb-4"
               >
                 Leaderboard
               </button>
             </Link>
-            <Link href="/Deployer">
+            <Link href="/Players">
               <button
                 className="cursor-pointer transition-all text-3xl mb-4"
               >
