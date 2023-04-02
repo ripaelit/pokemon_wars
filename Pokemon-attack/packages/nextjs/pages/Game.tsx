@@ -13,8 +13,7 @@ const Game = () => {
             <Navbar />
             <Score />
             <Pichu />
-            <Pikachu />
-            <Raichu />
+            <Footer />
         </main>
     )
 }

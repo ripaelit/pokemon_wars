@@ -19,7 +19,7 @@ const Hero = () => {
           <div
           className="flex flex-col sm:flex-row"
           >
-            <Link href="/">
+            <Link href="/Game">
               <button className="bg-[#8900FF] py-2 px-6 rounded-sm hover:bg-gradient-to-l from-[#8900FF] to-[#D000FF] sm:mr-10 mb-5">
                 Play Game
               </button>
