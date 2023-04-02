@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "~~/components/Navbar";
 import Footer from "~~/components/scaffold-eth/Footer";
 import WinnerDetails from "~~/components/WinnersDetails";
+import { Spinner } from "~~/components/Spinner";
 
 const Leaderboards = () => {
     return(
@@ -27,3 +28,16 @@ const Leaderboards = () => {
 }
 
 export default Leaderboards
+
+const Loading = () => {
+    return (
+      <div
+        className="flex justify-center items-center"
+        style={{
+          height: "700px",
+        }}
+      >
+        <Spinner />
+      </div>
+    );
+}

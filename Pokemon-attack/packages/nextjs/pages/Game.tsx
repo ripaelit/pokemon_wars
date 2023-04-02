@@ -20,3 +20,16 @@ const Game = () => {
 }
 
 export default Game
+
+const Loading = () => {
+    return (
+      <div
+        className="flex justify-center items-center"
+        style={{
+          height: "700px",
+        }}
+      >
+        <Spinner />
+      </div>
+    );
+  };
