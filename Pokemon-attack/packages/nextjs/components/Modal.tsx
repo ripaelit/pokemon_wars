@@ -47,7 +47,7 @@ const Modal = ({ isOpen, onClose, onTransfer }: ModalProps) => {
               </p>
               <label
                 htmlFor="walletAddress"
-                className="font-semibold text-neutral-300"
+                className="font-semibold text-neutral-300 "
               >
                 Enter Wallet Address:
               </label>
