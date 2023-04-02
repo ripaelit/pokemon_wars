@@ -36,6 +36,9 @@ const Pichu = (): JSX.Element => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onTransfer={handleTransfer}
+        title={"Send your Pichu to Someone"}
+        description={"Enter their wallet address or select a current player to transfer your Pichu to."}
+        action={"Transfer"}
       />
     </div>
   );

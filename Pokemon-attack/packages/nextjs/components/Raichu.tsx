@@ -36,6 +36,9 @@ const Raichu = (): JSX.Element => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onTransfer={handleTransfer}
+        title={"It's time to Attack"}
+        description={"Enter their wallet address or select a current player to attack"}
+        action={"Attack"}
       />
     </div>
   );

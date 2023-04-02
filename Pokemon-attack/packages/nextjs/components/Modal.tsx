@@ -6,9 +6,12 @@ type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onTransfer: (walletAddress: string) => void;
+  title: string;
+  description: string;
+  action: string;
 };
 
-const Modal = ({ isOpen, onClose, onTransfer }: ModalProps) => {
+const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: ModalProps) => {
   const [walletAddress, setWalletAddress] = useState("");
 
   const handleTransfer = () => {
@@ -24,7 +27,7 @@ const Modal = ({ isOpen, onClose, onTransfer }: ModalProps) => {
       >
         <div className="flex items-center justify-center min-h-screen px-4 text-center">
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
-          <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden bg-[#171717] text-left align-middle transition-all transform bg-white shadow-xl rounded-md">
+          <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden bg-[#171923] text-left align-middle transition-all transform bg-white shadow-xl rounded-md">
             <div className="absolute top-0 right-0 pt-4 pr-4">
               <button
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500"
@@ -38,16 +41,15 @@ const Modal = ({ isOpen, onClose, onTransfer }: ModalProps) => {
               as="h3"
               className="text-xl font-semibold leading-6 text-white mb-4"
             >
-              Send your Pichu to Someone
+              {title}
             </Dialog.Title>
             <div className="mt-2">
               <p className="text-gray-500 mt-4">
-                Enter their wallet address or select a current player to transfer
-                your Pichu to.
+                {description}
               </p>
               <label
                 htmlFor="walletAddress"
-                className="font-semibold text-neutral-300 "
+                className="font-semibold text-neutral-300"
               >
                 Enter Wallet Address:
               </label>
@@ -65,7 +67,7 @@ const Modal = ({ isOpen, onClose, onTransfer }: ModalProps) => {
                 className="bg-white text-black border-0 py-2.5 px-7 rounded-lg font-normal leading-6 mt-5 w-full"
                 onClick={handleTransfer}
               >
-                Transfer
+                {action}
               </button>
             </div>
           </div>
