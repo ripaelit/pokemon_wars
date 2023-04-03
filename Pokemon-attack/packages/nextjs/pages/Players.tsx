@@ -12,10 +12,12 @@ const Players = () => {
     functionName: "gameId"
   })
 
+  console.log(gameId)
+
   const { data: allPlayers } = useScaffoldContractRead({
     contractName: "Game_Contract",
     functionName: "getPlayers",
-    args: [BigNumber.from(gameId)]
+    args: [gameId]
   })
     return(
         <section className="min-h-screen">
