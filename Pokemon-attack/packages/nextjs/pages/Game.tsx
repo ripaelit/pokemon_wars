@@ -13,7 +13,6 @@ import { BigNumber } from "ethers";
 
 const Game = () => {
     const { address } = useAccount();
-
     const { data: PikachuBalance } = useScaffoldContractRead({
         contractName: "Game_Contract",
         functionName: "balanceOf",

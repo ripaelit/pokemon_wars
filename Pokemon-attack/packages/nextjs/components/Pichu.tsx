@@ -5,6 +5,7 @@ import Modal from "./Modal";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { useAccount } from "wagmi";
 import { BigNumber } from "ethers";
+import { Spinner } from "./Spinner";
 
 const Pichu = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,7 +15,7 @@ const Pichu = (): JSX.Element => {
     functionName: "balanceOf",
     args: [address, BigNumber.from(0)]
   });
-  const { writeAsync: claimLevelOnePichu } = useScaffoldContractWrite({
+  const { writeAsync: claimLevelOnePichu, isLoading } = useScaffoldContractWrite({
     contractName: "Game_Contract",
     functionName: "claimLevelOnePickachu",
     value: "0.1"
@@ -33,6 +34,12 @@ const Pichu = (): JSX.Element => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  if(isLoading) {
+    return(
+      <Loading />
+    )
+  }
 
   return (
     <div className="flex flex-col items-center py-8">
@@ -69,3 +76,17 @@ const Pichu = (): JSX.Element => {
 };
 
 export default Pichu;
+
+
+const Loading = () => {
+  return (
+    <div
+      className="flex justify-center items-center"
+      style={{
+        height: "700px",
+      }}
+    >
+      <Spinner />
+    </div>
+  );
+};

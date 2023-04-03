@@ -4,6 +4,7 @@ import { XIcon } from "@heroicons/react/outline";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { useAccount } from "wagmi";
 import { BigNumber } from "ethers";
+import { AddressInput } from "./scaffold-eth";
 
 type ModalProps = {
   isOpen: boolean;
@@ -26,6 +27,12 @@ const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: Moda
     functionName: "safeTransferFrom",
     args: [address, walletAddress, currentGame, BigNumber.from(1), "0x"]
   })
+
+  const { writeAsync: attack } = useScaffoldContractWrite({
+    contractName: "Game_Contract",
+    functionName: "attack",
+    args: [walletAddress]
+  })
   const handleTransfer = () => {
     onTransfer(walletAddress);
   };
@@ -35,6 +42,9 @@ const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: Moda
       if(action === "Transfer") {
         await Transfer();
         await handleTransfer();
+      }
+      else if(action === "Attack") {
+        await attack();
       }
     } catch (err: any) {
       console.error(err.reason)

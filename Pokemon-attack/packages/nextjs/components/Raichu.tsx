@@ -5,8 +5,7 @@ import Modal from "./Modal";
 
 const Raichu = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleCollect = () => {
+  const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
@@ -28,7 +27,7 @@ const Raichu = (): JSX.Element => {
       <Image src={raichu} width="300" height="300" alt="Pichu" />
       <button
         className="bg-white text-black border-0 py-2.5 px-7 rounded-lg font-semibold leading-6 mt-5"
-        onClick={handleCollect}
+        onClick={handleOpenModal}
       >
         Attack
       </button>
