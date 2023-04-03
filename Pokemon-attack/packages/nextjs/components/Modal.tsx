@@ -4,7 +4,7 @@ import { XIcon } from "@heroicons/react/outline";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { useAccount } from "wagmi";
 import { BigNumber } from "ethers";
-import { AddressInput } from "./scaffold-eth";
+import { Spinner } from "./Spinner";
 
 type ModalProps = {
   isOpen: boolean;
@@ -28,7 +28,7 @@ const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: Moda
     args: [address, walletAddress, currentGame, BigNumber.from(1), "0x"]
   })
 
-  const { writeAsync: attack } = useScaffoldContractWrite({
+  const { writeAsync: attack, isLoading } = useScaffoldContractWrite({
     contractName: "Game_Contract",
     functionName: "attack",
     args: [walletAddress]
@@ -49,6 +49,12 @@ const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: Moda
     } catch (err: any) {
       console.error(err.reason)
     }
+  }
+
+  if(isLoading) {
+    return(
+      <Loading />
+    )
   }
 
   return (
@@ -111,3 +117,16 @@ const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: Moda
 };
 
 export default Modal;
+
+const Loading = () => {
+  return (
+    <div
+      className="flex justify-center items-center"
+      style={{
+        height: "700px",
+      }}
+    >
+      <Spinner />
+    </div>
+  );
+};

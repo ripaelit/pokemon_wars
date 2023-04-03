@@ -77,6 +77,8 @@ contract PokemonAttack is ERC1155LazyMint {
   function claimLevelOnePickachu() external payable isGameActive CheckGameTime {
     require(msg.value == 0.1 ether, "NOT_ENOUGH_ETHER");
     claim(msg.sender, 0, 1);
+    // use a mapping to track
+    // if the address already exists don't push it
     games[gameId].allPlayers.push(msg.sender);
     games[gameId].playersPlayed += 1;
     emit LevelUp(msg.sender, 1);
@@ -94,6 +96,7 @@ contract PokemonAttack is ERC1155LazyMint {
   ) public override isGameActive CheckGameTime {
     require(id == 0, "This NFT is not transferrable");
     super.safeTransferFrom(from, to, id, amount, data);
+    // if the address already exists don't push it
     games[gameId].allPlayers.push(to);
     if (from != to && id == 0) {
       // transferring level 1 pickachu should give the user a level 2 pickachu

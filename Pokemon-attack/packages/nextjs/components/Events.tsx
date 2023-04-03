@@ -1,8 +1,53 @@
 import React from "react";
 import Pokemon from "../public/assets/Pichu.svg";
 import Image from "next/image";
+import { useAccount, useContractEvent } from "wagmi";
+import { useScaffoldEventSubscriber } from "~~/hooks/scaffold-eth";
 
 const Events = () => {
+  // const { address } = useAccount();
+  useScaffoldEventSubscriber({
+    contractName: "Game_Contract",
+    eventName: "LevelUp",
+    listener: (account, level) => {
+      console.log("Account address", account);
+      console.log("Level", level);
+    },
+    once: true,
+  });
+
+  useScaffoldEventSubscriber({
+    contractName: "Game_Contract",
+    eventName: "BattleBegins",
+    listener: (starter, id, timestamp) => {
+      console.log("starter", starter);
+      console.log("id", id);
+      console.log("timestamp", timestamp);
+    }
+  })
+  
+  useScaffoldEventSubscriber({
+    contractName: "Game_Contract",
+    eventName: "BattleWon",
+    listener : (attacker, victim, level, timestamp) => {
+      console.log("attacker: ", attacker);
+      console.log("victim: ", victim);
+      console.log("level: ", level);
+      console.log("timestamp: ", timestamp)
+    },
+    once: true
+  })
+
+  useScaffoldEventSubscriber({
+    contractName: "Game_Contract",
+    eventName: "BattleBegins",
+    listener: (starter, id, timestamp) => {
+      console.log("starter", starter)
+      console.log("id", id)
+      console.log("timestamp", timestamp)
+    },
+    once: true
+  })
   return (
     <div className="flex items-center flex-col py-2">
       <div className="flex border-[1px] border-gray-500 rounded-md gap-0">

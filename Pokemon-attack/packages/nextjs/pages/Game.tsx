@@ -26,7 +26,12 @@ const Game = () => {
     })
 
     const render = () => {
-        if(RaichuBalance !== undefined && RaichuBalance?.toNumber() > 0) {
+        if(RaichuBalance === undefined) {
+            return(
+                <Loading />
+            )
+        }
+        else if(RaichuBalance !== undefined && RaichuBalance?.toNumber() > 0) {
             return(
                 <Raichu />
             )
@@ -49,7 +54,6 @@ const Game = () => {
             <Score />
             {render()}
             <EventsHeading />
-            <Events />
             <Events />
             <Footer />
         </main>
