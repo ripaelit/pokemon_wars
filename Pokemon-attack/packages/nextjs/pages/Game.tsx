@@ -39,7 +39,7 @@ const Loading = () => {
 
   export const EventsHeading = () => {
     return(
-        <div className="flex items-center flex-col py-20">
+        <div className="flex items-center flex-col py-10">
         <h1 className="text-2xl border-t-[0.5px] border-gray-400 font-semibold text-white py-2">
         Game Events
       </h1>
