@@ -1,9 +1,7 @@
-import { BigNumber } from "ethers";
 import React from "react";
 import Navbar from "~~/components/Navbar";
 import PlayerDetails from "~~/components/PlayerDetails";
 import Footer from "~~/components/scaffold-eth/Footer";
-import { Spinner } from "~~/components/Spinner";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
 const Players = () => {
@@ -11,8 +9,6 @@ const Players = () => {
     contractName: "Game_Contract",
     functionName: "gameId"
   })
-
-  console.log(gameId)
 
   const { data: allPlayers } = useScaffoldContractRead({
     contractName: "Game_Contract",
@@ -44,16 +40,3 @@ const Players = () => {
 }
 
 export default Players
-
-const Loading = () => {
-    return (
-      <div
-        className="flex justify-center items-center"
-        style={{
-          height: "700px",
-        }}
-      >
-        <Spinner />
-      </div>
-    );
-  };

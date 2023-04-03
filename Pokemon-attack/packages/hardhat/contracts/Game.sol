@@ -94,6 +94,7 @@ contract PokemonAttack is ERC1155LazyMint {
   ) public override isGameActive CheckGameTime {
     require(id == 0, "This NFT is not transferrable");
     super.safeTransferFrom(from, to, id, amount, data);
+    games[gameId].allPlayers.push(to);
     if (from != to && id == 0) {
       // transferring level 1 pickachu should give the user a level 2 pickachu
       _mint(msg.sender, 1, 1, "");
