@@ -8,8 +8,34 @@ import Footer from "~~/components/scaffold-eth/Footer";
 import { Spinner } from "~~/components/Spinner";
 import Events from "~~/components/Events";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
+import { useAccount } from "wagmi";
+import { BigNumber } from "ethers";
 
 const Game = () => {
+    const { address } = useAccount();
+
+    const { data: pichuBalance } = useScaffoldContractRead({
+        contractName: "Game_Contract",
+        functionName: "balanceOf",
+        args: [address, BigNumber.from(0)]
+    })
+
+    const { data: pikachuBalance } = useScaffoldContractRead({
+        contractName: "Game_Contract",
+        functionName: "balanceOf",
+        args: [address, BigNumber.from(1)]
+    });
+
+    const { data: RaichuBalance } = useScaffoldContractRead({
+        contractName: "Game_Contract",
+        functionName: "balanceOf",
+        args: [address, BigNumber.from(2)]
+    })
+
+    const render = () => {
+        
+    }
+ 
     return(
         <main>
             <Navbar />

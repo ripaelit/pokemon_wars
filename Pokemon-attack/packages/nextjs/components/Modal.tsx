@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
+import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { useAccount } from "wagmi";
+import { BigNumber } from "ethers";
 
 type ModalProps = {
   isOpen: boolean;
@@ -13,10 +16,30 @@ type ModalProps = {
 
 const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: ModalProps) => {
   const [walletAddress, setWalletAddress] = useState("");
-
+  const { address } = useAccount();
+  const { data: currentGame } = useScaffoldContractRead({
+    contractName: "Game_Contract",
+    functionName: "gameId",
+  })
+  const { writeAsync: Transfer } = useScaffoldContractWrite({
+    contractName: "Game_Contract",
+    functionName: "safeTransferFrom",
+    args: [address, walletAddress, currentGame, BigNumber.from(1), "0x"]
+  })
   const handleTransfer = () => {
     onTransfer(walletAddress);
   };
+
+  const handleAction = async (): Promise<void> => {
+    try {
+      if(action === "Transfer") {
+        await Transfer();
+        await handleTransfer();
+      }
+    } catch (err: any) {
+      console.error(err.reason)
+    }
+  }
 
   return (
     <Transition show={isOpen} as={React.Fragment}>
@@ -65,7 +88,7 @@ const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: Moda
               <button
                 type="button"
                 className="bg-white text-black border-0 py-2.5 px-7 rounded-lg font-normal leading-6 mt-5 w-full"
-                onClick={handleTransfer}
+                onClick={handleAction}
               >
                 {action}
               </button>
