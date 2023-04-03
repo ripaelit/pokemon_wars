@@ -14,13 +14,7 @@ import { BigNumber } from "ethers";
 const Game = () => {
     const { address } = useAccount();
 
-    const { data: pichuBalance } = useScaffoldContractRead({
-        contractName: "Game_Contract",
-        functionName: "balanceOf",
-        args: [address, BigNumber.from(0)]
-    })
-
-    const { data: pikachuBalance } = useScaffoldContractRead({
+    const { data: PikachuBalance } = useScaffoldContractRead({
         contractName: "Game_Contract",
         functionName: "balanceOf",
         args: [address, BigNumber.from(1)]
@@ -33,14 +27,28 @@ const Game = () => {
     })
 
     const render = () => {
-        
+        if(RaichuBalance !== undefined && RaichuBalance?.toNumber() > 0) {
+            return(
+                <Raichu />
+            )
+        }
+        else if(RaichuBalance !== undefined && PikachuBalance !== undefined && PikachuBalance?.toNumber() > 0 && RaichuBalance?.toNumber() === 0 ) {
+            return(
+                <Pikachu />
+            )
+        }
+        else {
+            return(
+                <Pichu />
+            )
+        }
     }
  
     return(
         <main>
             <Navbar />
             <Score />
-            <Pichu />
+            {render()}
             <EventsHeading />
             <Events />
             <Events />
