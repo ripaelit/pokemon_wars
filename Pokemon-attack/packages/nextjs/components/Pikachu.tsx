@@ -4,15 +4,21 @@ import Image from "next/image";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { useAccount } from "wagmi";
 import { BigNumber } from "ethers";
+import { Spinner } from "./Spinner";
 
 const Pikachu = (): JSX.Element => {
   const { address } = useAccount();
-  const { writeAsync: burn } = useScaffoldContractWrite({
+  const { writeAsync: burn, isLoading } = useScaffoldContractWrite({
     contractName: "Game_Contract",
     functionName: "burn",
     args: [address, BigNumber.from(1), BigNumber.from(1)]
   })
 
+  if(isLoading) {
+    return(
+      <Loading />
+    )
+  }
   return (
     <div className="flex flex-col items-center py-8">
       <h1 className="text-white font-semibold leading-6 text-xl mb-5">
@@ -30,3 +36,16 @@ const Pikachu = (): JSX.Element => {
 };
 
 export default Pikachu;
+
+const Loading = () => {
+  return (
+    <div
+      className="flex justify-center items-center"
+      style={{
+        height: "700px",
+      }}
+    >
+      <Spinner />
+    </div>
+  );
+};
