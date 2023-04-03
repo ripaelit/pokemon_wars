@@ -1,10 +1,22 @@
+import { BigNumber } from "ethers";
 import React from "react";
 import Navbar from "~~/components/Navbar";
 import PlayerDetails from "~~/components/PlayerDetails";
 import Footer from "~~/components/scaffold-eth/Footer";
 import { Spinner } from "~~/components/Spinner";
+import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
 const Players = () => {
+  const { data: gameId } = useScaffoldContractRead({
+    contractName: "Game_Contract",
+    functionName: "gameId"
+  })
+
+  const { data: allPlayers } = useScaffoldContractRead({
+    contractName: "Game_Contract",
+    functionName: "getPlayers",
+    args: [BigNumber.from(gameId)]
+  })
     return(
         <section className="min-h-screen">
             <Navbar />
@@ -17,10 +29,13 @@ const Players = () => {
                 <p className="lg:ml-32">Score</p>
             </div>
             </div>
-            <div className="flex flex-col items-center">
-            <PlayerDetails />
-            <PlayerDetails />
-            </div>
+            {allPlayers && allPlayers?.length > 0 && (
+              <div className="flex flex-col items-center">
+                {allPlayers.map((player, idx) => {
+                  return <PlayerDetails address={player} index={idx} />
+                })}
+              </div>
+            )}
             <Footer />
         </section>
     )
