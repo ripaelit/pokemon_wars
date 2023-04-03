@@ -7,6 +7,7 @@ import Score from "~~/components/Score";
 import Footer from "~~/components/scaffold-eth/Footer";
 import { Spinner } from "~~/components/Spinner";
 import Events from "~~/components/Events";
+import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
 const Game = () => {
     return(
