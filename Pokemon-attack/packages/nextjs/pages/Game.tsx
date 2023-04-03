@@ -19,7 +19,7 @@ const Game = () => {
         functionName: "balanceOf",
         args: [address, BigNumber.from(1)]
     });
-
+    
     const { data: RaichuBalance } = useScaffoldContractRead({
         contractName: "Game_Contract",
         functionName: "balanceOf",
