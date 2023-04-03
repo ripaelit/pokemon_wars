@@ -3,6 +3,7 @@ import Navbar from "~~/components/Navbar";
 import PlayerDetails from "~~/components/PlayerDetails";
 import Footer from "~~/components/scaffold-eth/Footer";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
+import { Spinner } from "~~/components/Spinner";
 
 const Players = () => {
   const { data: gameId } = useScaffoldContractRead({
@@ -15,6 +16,10 @@ const Players = () => {
     functionName: "getPlayers",
     args: [gameId]
   })
+
+  if(!gameId) {
+    return <Loading />
+  }
     return(
         <section className="min-h-screen">
             <Navbar />
@@ -40,3 +45,16 @@ const Players = () => {
 }
 
 export default Players
+
+const Loading = () => {
+  return (
+    <div
+      className="flex justify-center items-center"
+      style={{
+        height: "700px",
+      }}
+    >
+      <Spinner />
+    </div>
+  );
+};
