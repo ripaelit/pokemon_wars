@@ -6,6 +6,7 @@ import Raichu from "~~/components/Raichu";
 import Score from "~~/components/Score";
 import Footer from "~~/components/scaffold-eth/Footer";
 import { Spinner } from "~~/components/Spinner";
+import Events from "~~/components/Events";
 
 const Game = () => {
     return(
@@ -13,6 +14,7 @@ const Game = () => {
             <Navbar />
             <Score />
             <Pichu />
+            <Events />
             <Footer />
         </main>
     )
