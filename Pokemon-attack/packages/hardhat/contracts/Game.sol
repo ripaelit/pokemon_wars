@@ -53,9 +53,9 @@ contract PokemonAttack is ERC1155LazyMint {
       rewardWinner();
     }
     gameId += 1;
-    _game.gameStartingTime = block.timestamp;
-    _game.gameEndingTime = block.timestamp + gameTime;
-    _game.gameActive = true;
+    games[gameId + 1].gameStartingTime = block.timestamp;
+    games[gameId + 1].gameEndingTime = block.timestamp + gameTime;
+    games[gameId + 1].gameActive = true;
     emit BattleBegins(msg.sender, gameId, block.timestamp);
   }
 
@@ -160,7 +160,7 @@ contract PokemonAttack is ERC1155LazyMint {
     Game storage _game = games[gameId];
     require(block.timestamp > _game.gameEndingTime, "GAME_ONGOING");
     address winner = _game.allPlayers[0];
-    for (uint256 i = 1; i < _game.allPlayers.length; ++i) {
+    for (uint256 i = 1; i < _game.allPlayers.length; i++) {
       uint256 playerScore = getScore(_game.allPlayers[i]);
       uint256 currentWinnerScore = getScore(winner);
       if (playerScore > currentWinnerScore) {
@@ -168,7 +168,7 @@ contract PokemonAttack is ERC1155LazyMint {
       }
     }
     (bool sent, ) = winner.call{value: address(this).balance}("");
-    require(sent, "Failed to reward winner");
+    require(sent && winner != address(0), "Failed to reward winner");
     allWinners.push(winner);
     _game.winnerRewarded = true;
     emit BattleEnded(winner, address(this).balance, gameId);
