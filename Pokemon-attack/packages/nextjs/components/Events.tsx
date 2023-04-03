@@ -4,10 +4,7 @@ import Image from "next/image";
 
 const Events = () => {
   return (
-    <div className="flex items-center flex-col py-20">
-      <h1 className="text-2xl border-t-[0.5px] border-gray-400 font-semibold text-white py-2">
-        Game Events
-      </h1>
+    <div className="flex items-center flex-col py-2">
       <div className="flex border-[1px] border-gray-500 rounded-md gap-0">
         <div className="border-r-[0.5px] border-gray-500">
           <Image src={Pokemon} width={64} height={64} alt="Image" />

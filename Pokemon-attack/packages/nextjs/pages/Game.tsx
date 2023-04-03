@@ -14,6 +14,8 @@ const Game = () => {
             <Navbar />
             <Score />
             <Pichu />
+            <EventsHeading />
+            <Events />
             <Events />
             <Footer />
         </main>
@@ -34,3 +36,13 @@ const Loading = () => {
       </div>
     );
   };
+
+  export const EventsHeading = () => {
+    return(
+        <div className="flex items-center flex-col py-20">
+        <h1 className="text-2xl border-t-[0.5px] border-gray-400 font-semibold text-white py-2">
+        Game Events
+      </h1>
+        </div>
+    )
+  }
