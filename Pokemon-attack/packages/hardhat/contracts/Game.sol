@@ -2,28 +2,27 @@
 pragma solidity ^0.8.0;
 
 import "@thirdweb-dev/contracts/base/ERC1155LazyMint.sol";
-// when the new game is started it should somehow remove all of the tokens you own.
 
 error GAME_NOT_ACTIVE();
 
-contract PokemonAttack is ERC1155LazyMint {
+contract Pokemon_Wars is ERC1155LazyMint {
   event LevelUp(address indexed account, uint256 indexed level);
   event BattleWon(address indexed attacker, address indexed victim, uint256 indexed level, uint256 timestamp);
   event BattleBegins(address indexed starter, uint256 indexed id, uint256 indexed timestamp);
-  event BattleEnded(address indexed winner, uint256 indexed rewardWon, uint256 indexed gameId);
 
-  uint256 public immutable gameTime = 24 hours;
+  uint256 public immutable gameTime = 20 minutes;
   bool public started;
   address[] private allWinners;
 
   struct Game {
     uint256 gameStartingTime;
     uint256 gameEndingTime;
-    // uint256 playersPlayed;
     bool gameActive;
     address[] allPlayers;
-    // address winner;
     bool winnerRewarded;
+    address winner;
+    mapping(address => bool) hasEntered;
+    mapping(address => uint256) playerScore;
   }
 
   mapping(uint256 => Game) public games;
@@ -50,13 +49,13 @@ contract PokemonAttack is ERC1155LazyMint {
     if (_game.gameActive) {
       _game.gameActive = false;
     }
-    if (!_game.winnerRewarded) {
+    if (!_game.winnerRewarded && _game.winner != address(0)) {
       rewardWinner();
     }
     gameId += 1;
-    games[gameId + 1].gameStartingTime = block.timestamp;
-    games[gameId + 1].gameEndingTime = block.timestamp + gameTime;
-    games[gameId + 1].gameActive = true;
+    games[gameId].gameStartingTime = block.timestamp;
+    games[gameId].gameEndingTime = block.timestamp + gameTime;
+    games[gameId].gameActive = true;
     emit BattleBegins(msg.sender, gameId, block.timestamp);
   }
 
@@ -75,13 +74,14 @@ contract PokemonAttack is ERC1155LazyMint {
   /*
   @dev claim a level one pickachu to start playing
   */
-  function claimLevelOnePickachu() external payable isGameActive CheckGameTime {
+  function claimLevelOnePichu() external payable isGameActive CheckGameTime {
     require(msg.value == 0.1 ether, "NOT_ENOUGH_ETHER");
     claim(msg.sender, 0, 1);
-    // use a mapping to track
-    // if the address already exists don't push it
-    games[gameId].allPlayers.push(msg.sender);
-    // games[gameId].playersPlayed += 1;
+    if (games[gameId].hasEntered[msg.sender] == false) {
+      games[gameId].allPlayers.push(msg.sender);
+      games[gameId].hasEntered[msg.sender] = true;
+    }
+    games[gameId].playerScore[msg.sender] += 2;
     emit LevelUp(msg.sender, 1);
   }
 
@@ -96,11 +96,14 @@ contract PokemonAttack is ERC1155LazyMint {
     bytes memory data
   ) public override isGameActive CheckGameTime {
     require(id == 0, "This NFT is not transferrable");
+    require(balanceOf[to][0] == 0 && balanceOf[to][1] == 0 && balanceOf[to][2] == 0, "Player already owns an NFT");
     super.safeTransferFrom(from, to, id, amount, data);
     // if the address already exists don't push it
-    games[gameId].allPlayers.push(to);
+    if (!games[gameId].hasEntered[to]) {
+      games[gameId].allPlayers.push(to);
+      games[gameId].hasEntered[to] = true;
+    }
     if (from != to && id == 0) {
-      // transferring level 1 pickachu should give the user a level 2 pickachu
       _mint(msg.sender, 1, 1, "");
       emit LevelUp(msg.sender, 2);
     }
@@ -114,6 +117,7 @@ contract PokemonAttack is ERC1155LazyMint {
     _burn(msg.sender, 1, 1);
     if (id == 1) {
       _mint(msg.sender, 2, 1, "");
+      games[gameId].playerScore[msg.sender] += 1;
       emit LevelUp(msg.sender, 3);
     }
   }
@@ -151,16 +155,17 @@ contract PokemonAttack is ERC1155LazyMint {
     }
     _burn(_victim, tokenToAttack, 1);
     _mint(msg.sender, 3, 1, "");
+    games[gameId].playerScore[msg.sender] += 2;
     emit BattleWon(msg.sender, _victim, tokenToAttack + 1, block.timestamp);
   }
 
   function getScore(address player) public view returns (uint256) {
-    return balanceOf[player][2] + 1 * balanceOf[player][3] + 3;
+    return games[gameId].playerScore[player];
   }
 
   /*
-  @dev reward winner of the game
-  */
+    @dev reward winner of the game
+    */
   function rewardWinner() public {
     Game storage _game = games[gameId];
     require(block.timestamp > _game.gameEndingTime, "GAME_ONGOING");
@@ -170,19 +175,18 @@ contract PokemonAttack is ERC1155LazyMint {
       uint256 currentWinnerScore = getScore(winner);
       if (playerScore > currentWinnerScore) {
         winner = _game.allPlayers[i];
+        _game.winner = winner;
       }
     }
     (bool sent, ) = winner.call{value: address(this).balance}("");
     require(sent && winner != address(0), "Failed to reward winner");
     allWinners.push(winner);
     _game.winnerRewarded = true;
-    emit BattleEnded(winner, address(this).balance, gameId);
-    // emit an event
   }
 
   /*
-  @dev Getter function to get all the players
-  */
+    @dev Getter function to get all the players
+    */
   function getPlayers(uint256 _id) public view returns (address[] memory) {
     return games[_id].allPlayers;
   }
@@ -202,7 +206,11 @@ contract PokemonAttack is ERC1155LazyMint {
     started = false;
   }
 
-  function checkIfGameEnded(uint256 _id) public view returns (bool) {
-    return true ? block.timestamp > games[_id].gameEndingTime : false;
+  function checkIfGameEnded() public view returns (bool) {
+    return true ? block.timestamp > games[gameId].gameEndingTime : false;
+  }
+
+  function getContractBalance() public view returns (uint256) {
+    return address(this).balance;
   }
 }
