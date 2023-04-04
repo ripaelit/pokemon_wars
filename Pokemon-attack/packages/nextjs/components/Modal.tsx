@@ -18,14 +18,10 @@ type ModalProps = {
 const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: ModalProps) => {
   const [walletAddress, setWalletAddress] = useState("");
   const { address } = useAccount();
-  const { data: currentGame } = useScaffoldContractRead({
-    contractName: "Game_Contract",
-    functionName: "gameId",
-  })
   const { writeAsync: Transfer } = useScaffoldContractWrite({
     contractName: "Game_Contract",
     functionName: "safeTransferFrom",
-    args: [address, walletAddress, currentGame, BigNumber.from(1), "0x"]
+    args: [address, walletAddress, BigNumber.from(0), BigNumber.from(1), "0x"]
   })
 
   const { writeAsync: attack, isLoading } = useScaffoldContractWrite({

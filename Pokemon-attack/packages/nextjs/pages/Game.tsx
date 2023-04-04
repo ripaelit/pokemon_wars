@@ -30,9 +30,9 @@ const Game = () => {
         contractName: "Game_Contract",
         functionName: "checkIfGameEnded",
     })
+    console.log(gameEnded)
 
     const render = () => {
-        // if the checkIfGameEnded is true then we will display the startNewGame func
         if(gameEnded !== undefined && gameEnded) {
             return(
                 <NewGame />
