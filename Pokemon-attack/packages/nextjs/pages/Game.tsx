@@ -26,6 +26,7 @@ const Game = () => {
     })
 
     const render = () => {
+        // if the checkIfGameEnded is true then we will display the startNewGame func
         if(RaichuBalance === undefined) {
             return(
                 <Loading />

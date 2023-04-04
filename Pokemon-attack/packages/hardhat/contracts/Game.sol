@@ -193,4 +193,8 @@ contract PokemonAttack is ERC1155LazyMint {
     require(msg.sender == owner(), "NOT OWNER");
     started = false;
   }
+
+  function checkIfGameEnded(uint256 _id) public view returns (bool) {
+    return true ? block.timestamp > games[_id].gameEndingTime : false;
+  }
 }
