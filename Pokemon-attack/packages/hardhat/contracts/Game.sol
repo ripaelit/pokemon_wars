@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "@thirdweb-dev/contracts/base/ERC1155LazyMint.sol";
+// when the new game is started it should somehow remove all of the tokens you own.
 
 error GAME_NOT_ACTIVE();
 
@@ -13,15 +14,15 @@ contract PokemonAttack is ERC1155LazyMint {
 
   uint256 public immutable gameTime = 24 hours;
   bool public started;
-  address[] allWinners;
+  address[] private allWinners;
 
   struct Game {
     uint256 gameStartingTime;
     uint256 gameEndingTime;
-    uint256 playersPlayed;
+    // uint256 playersPlayed;
     bool gameActive;
     address[] allPlayers;
-    address winner;
+    // address winner;
     bool winnerRewarded;
   }
 
@@ -80,7 +81,7 @@ contract PokemonAttack is ERC1155LazyMint {
     // use a mapping to track
     // if the address already exists don't push it
     games[gameId].allPlayers.push(msg.sender);
-    games[gameId].playersPlayed += 1;
+    // games[gameId].playersPlayed += 1;
     emit LevelUp(msg.sender, 1);
   }
 
@@ -137,7 +138,7 @@ contract PokemonAttack is ERC1155LazyMint {
   */
   function attack(address _victim) external isGameActive CheckGameTime {
     require(balanceOf[msg.sender][2] > 0, "You don't own a level 3 pickachu to attack");
-    require(msg.sender != _victim, "You can't attack yourself dumbass");
+    require(msg.sender != _victim, "You can't attack yourself");
     uint256 tokenToAttack = 0;
     if (balanceOf[_victim][0] > 0) {
       tokenToAttack = 0;
@@ -184,6 +185,13 @@ contract PokemonAttack is ERC1155LazyMint {
   */
   function getPlayers(uint256 _id) public view returns (address[] memory) {
     return games[_id].allPlayers;
+  }
+
+  /*
+  @dev Getter function to get all the winners
+  */
+  function getAllWinners() public view returns (address[] memory) {
+    return allWinners;
   }
 
   /*
