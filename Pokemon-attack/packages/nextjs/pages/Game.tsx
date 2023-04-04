@@ -10,6 +10,7 @@ import Events from "~~/components/Events";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 import { useAccount } from "wagmi";
 import { BigNumber } from "ethers";
+import NewGame from "~~/components/NewGame";
 
 const Game = () => {
     const { address } = useAccount();
@@ -25,9 +26,19 @@ const Game = () => {
         args: [address, BigNumber.from(2)]
     })
 
+    const { data: gameEnded } = useScaffoldContractRead({
+        contractName: "Game_Contract",
+        functionName: "checkIfGameEnded",
+    })
+
     const render = () => {
         // if the checkIfGameEnded is true then we will display the startNewGame func
-        if(RaichuBalance === undefined) {
+        if(gameEnded !== undefined && gameEnded) {
+            return(
+                <NewGame />
+            )
+        }
+        else if(RaichuBalance === undefined) {
             return(
                 <Loading />
             )
