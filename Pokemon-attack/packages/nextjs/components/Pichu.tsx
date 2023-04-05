@@ -17,7 +17,7 @@ const Pichu = (): JSX.Element => {
   });
   const { writeAsync: claimLevelOnePichu, isLoading } = useScaffoldContractWrite({
     contractName: "Game_Contract",
-    functionName: "claimLevelOnePickachu",
+    functionName: "claimLevelOnePichu",
     value: "0.1"
   });
 
