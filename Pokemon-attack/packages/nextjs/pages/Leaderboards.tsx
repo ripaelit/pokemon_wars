@@ -3,8 +3,14 @@ import Navbar from "~~/components/Navbar";
 import Footer from "~~/components/scaffold-eth/Footer";
 import WinnerDetails from "~~/components/WinnersDetails";
 import { Spinner } from "~~/components/Spinner";
+import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
 const Leaderboards = () => {
+    const { data: winners } = useScaffoldContractRead({
+      contractName: "Game_Contract",
+      functionName: "getAllWinners"
+    })
+
     return(
         <section className="min-h-screen">
             <Navbar />
@@ -19,8 +25,9 @@ const Leaderboards = () => {
             </div>
             </div>
             <div className="flex flex-col items-center">
-                {/* WinnerDetails */}
-                <WinnerDetails />
+              {winners && winners.map((winner, idx) => {
+                return <WinnerDetails winner={winner} idx={idx} />
+              })}
             </div>
             <Footer />
         </section>
