@@ -10,7 +10,7 @@ contract Pokemon_Wars is ERC1155LazyMint {
   event BattleWon(address indexed attacker, address indexed victim, uint256 indexed level, uint256 timestamp);
   event BattleBegins(address indexed starter, uint256 indexed id, uint256 indexed timestamp);
 
-  uint256 public immutable gameTime = 20 minutes;
+  uint256 public immutable gameTime = 24 hours;
   bool public started;
   address[] private allWinners;
 
@@ -21,7 +21,7 @@ contract Pokemon_Wars is ERC1155LazyMint {
     address[] allPlayers;
     bool winnerRewarded;
     address winner;
-    mapping(address => bool) hasEntered;
+    uint256 reward;
     mapping(address => uint256) playerScore;
   }
 
@@ -49,7 +49,7 @@ contract Pokemon_Wars is ERC1155LazyMint {
     if (_game.gameActive) {
       _game.gameActive = false;
     }
-    if (!_game.winnerRewarded && _game.winner != address(0)) {
+    if (!_game.winnerRewarded) {
       rewardWinner();
     }
     gameId += 1;
@@ -77,10 +77,7 @@ contract Pokemon_Wars is ERC1155LazyMint {
   function claimLevelOnePichu() external payable isGameActive CheckGameTime {
     require(msg.value == 0.1 ether, "NOT_ENOUGH_ETHER");
     claim(msg.sender, 0, 1);
-    if (games[gameId].hasEntered[msg.sender] == false) {
-      games[gameId].allPlayers.push(msg.sender);
-      games[gameId].hasEntered[msg.sender] = true;
-    }
+    games[gameId].allPlayers.push(msg.sender);
     games[gameId].playerScore[msg.sender] += 2;
     emit LevelUp(msg.sender, 1);
   }
@@ -99,10 +96,7 @@ contract Pokemon_Wars is ERC1155LazyMint {
     require(balanceOf[to][0] == 0 && balanceOf[to][1] == 0 && balanceOf[to][2] == 0, "Player already owns an NFT");
     super.safeTransferFrom(from, to, id, amount, data);
     // if the address already exists don't push it
-    if (!games[gameId].hasEntered[to]) {
-      games[gameId].allPlayers.push(to);
-      games[gameId].hasEntered[to] = true;
-    }
+    games[gameId].allPlayers.push(to);
     if (from != to && id == 0) {
       _mint(msg.sender, 1, 1, "");
       emit LevelUp(msg.sender, 2);
@@ -178,6 +172,7 @@ contract Pokemon_Wars is ERC1155LazyMint {
         _game.winner = winner;
       }
     }
+    _game.reward = address(this).balance;
     (bool sent, ) = winner.call{value: address(this).balance}("");
     require(sent && winner != address(0), "Failed to reward winner");
     allWinners.push(winner);
@@ -212,5 +207,9 @@ contract Pokemon_Wars is ERC1155LazyMint {
 
   function getContractBalance() public view returns (uint256) {
     return address(this).balance;
+  }
+
+  function getGameReward(uint256 _id) public view returns (uint256) {
+    return games[_id].reward;
   }
 }
