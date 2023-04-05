@@ -37,7 +37,7 @@ const Navbar = () => {
       <div className="flex -order-1">
         <div className="flex items-start justify-start space-x-2 w-auto cursor-pointer">
           <Link
-            href="/"
+            href="/Game"
             onClick={() => {
               setExpand(!expand);
             }}
@@ -96,7 +96,7 @@ const Navbar = () => {
         >
           <div className="flex justify-center space-x-2 items-center w-auto mb-4">
             <Link
-              href="/"
+              href="/Game"
               onClick={() => {
                 setExpand(!expand);
               }}
