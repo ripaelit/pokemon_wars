@@ -8,6 +8,7 @@ This project is built on top of the [scaffold-eth-2](https://github.com/scaffold
 
 - Youtube Link: [Click here to learn how the game works](https://youtu.be/cWDF1TGlQqA)
 - Live Game Link: [Click here to play the live game](https://pokemon-wars.vercel.app/)
+- Polygonscan contract link: [Click here to see the contract code](https://mumbai.polygonscan.com/address/0x3662fe5524ee5e4FE1FBAb15b6C063f723CB1cfe#code)
 
 ### Features
 

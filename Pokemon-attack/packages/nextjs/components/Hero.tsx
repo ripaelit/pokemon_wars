@@ -24,7 +24,7 @@ const Hero = () => {
                 Play Game
               </button>
             </Link>
-            <Link href="/">
+            <Link href="/https://youtu.be/cWDF1TGlQqA">
               <button className="bg-transparent border-[0.5px] border-[#8A02FF] text-[#8A02FF] py-2 px-6 rounded-sm hover:bg-gradient-to-l from-[#8900FF] to-[#D000FF] hover:text-white">
                 How to Play
               </button>
