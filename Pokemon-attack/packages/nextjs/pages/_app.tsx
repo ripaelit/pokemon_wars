@@ -13,6 +13,7 @@ import {
   getDefaultWallets,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient } from 'wagmi';
+import { Toaster } from "react-hot-toast";
 import { polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 const { chains, provider } = configureChains(
@@ -49,6 +50,7 @@ const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
       <RainbowKitProvider chains={chains} avatar={BlockieAvatar}>
         <div>
             <Component {...pageProps} />
+            <Toaster />
         </div>
       </RainbowKitProvider>
     </WagmiConfig>
