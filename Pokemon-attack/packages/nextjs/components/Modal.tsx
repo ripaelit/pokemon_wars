@@ -93,7 +93,7 @@ const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: Moda
                 name="walletAddress"
                 id="walletAddress"
                 placeholder="0x0"
-                className="w-full mt-3 border border-gray-500 text-black bg-gray-400 rounded-xl p-3 font-medium placeholder:text-gray-500"
+                className="w-full mt-3 border border-gray-500 text-black bg-gray-400 rounded-xl p-3 font-medium"
                 value={walletAddress}
                 onChange={(e) => setWalletAddress(e.target.value)}
               />
