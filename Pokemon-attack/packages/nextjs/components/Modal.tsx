@@ -62,7 +62,7 @@ const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: Moda
       >
         <div className="flex items-center justify-center min-h-screen px-4 text-center">
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
-          <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden bg-gray-900 text-left align-middle transition-all transform bg-white shadow-xl rounded-md">
+          <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-md">
             <div className="absolute top-0 right-0 pt-4 pr-4">
               <button
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500"
@@ -74,7 +74,7 @@ const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: Moda
             </div>
             <Dialog.Title
               as="h3"
-              className="text-xl font-semibold leading-6 text-white mb-4"
+              className="text-xl font-semibold leading-6 mb-4"
             >
               {title}
             </Dialog.Title>
@@ -84,7 +84,7 @@ const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: Moda
               </p>
               <label
                 htmlFor="walletAddress"
-                className="font-semibold text-neutral-300"
+                className="font-semibold"
               >
                 Enter Wallet Address:
               </label>
@@ -99,7 +99,7 @@ const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: Moda
               />
               <button
                 type="button"
-                className="bg-white text-black border-0 py-2.5 px-7 rounded-lg font-normal leading-6 mt-5 w-full"
+                className="text-white bg-gray-800 border-0 py-2.5 px-7 rounded-lg font-normal leading-6 mt-5 w-full"
                 onClick={handleAction}
               >
                 {action}

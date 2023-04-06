@@ -54,7 +54,6 @@ const Leaderboards = () => {
             <div className="flex items-center justify-center">
             <div className="bg-gradient-to-r from-[#7B4FFF] to-[#FF8F9D] flex justify-around text-white font-medium text-md w-11/12 sm:w-9/12 rounded-sm">
                 <p className="lg:ml-10">Address</p>
-                <p className="lg:ml-32">Game</p>
                 <p className="lg:ml-32">Amount Won</p>
             </div>
             </div>
