@@ -208,8 +208,4 @@ contract Pokemon_Wars is ERC1155LazyMint {
   function getContractBalance() public view returns (uint256) {
     return address(this).balance;
   }
-
-  function getGameReward(uint256 _id) public view returns (uint256) {
-    return games[_id].reward;
-  }
 }
