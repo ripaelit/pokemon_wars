@@ -35,7 +35,7 @@ const Players = () => {
             {allPlayers && allPlayers?.length > 0 && (
               <div className="flex flex-col items-center">
                 {allPlayers.map((player, idx) => {
-                  return <PlayerDetails address={player} index={idx} />
+                  return <PlayerDetails address={player} index={idx} key={idx} />
                 })}
               </div>
             )}

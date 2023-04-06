@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
-import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { MdClose } from "react-icons/md";
+import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 import { useAccount } from "wagmi";
 import { BigNumber } from "ethers";
 import { Spinner } from "./Spinner";
@@ -69,7 +69,7 @@ const Modal = ({ isOpen, onClose, onTransfer, title, description, action }: Moda
                 onClick={onClose}
               >
                 <span className="sr-only">Close</span>
-                <XIcon className="h-6 w-6" aria-hidden="true" />
+                <MdClose className="h-6 w-6" aria-hidden="true" />
               </button>
             </div>
             <Dialog.Title

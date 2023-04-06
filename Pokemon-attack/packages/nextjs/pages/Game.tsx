@@ -30,8 +30,6 @@ const Game = () => {
         contractName: "Game_Contract",
         functionName: "checkIfGameEnded",
     })
-    console.log(gameEnded)
-
     const render = () => {
         if(gameEnded !== undefined && gameEnded) {
             return(

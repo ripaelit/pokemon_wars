@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Navbar from "~~/components/Navbar";
 import Footer from "~~/components/scaffold-eth/Footer";
 import WinnerDetails from "~~/components/WinnersDetails";
-import { Spinner } from "~~/components/Spinner";
 import { useProvider, useContract } from "wagmi";
 import { CONTRACT_ADDR, ABI } from "~~/generated/hardhat_contracts";
 
@@ -61,7 +60,7 @@ const Leaderboards = () => {
             </div>
             <div className="flex flex-col items-center">
               {gamesArray && gamesArray.map((game, idx) => {
-                return <WinnerDetails {...game} idx={idx} />
+                return <WinnerDetails {...game} idx={idx} key={idx} />
               })}
             </div>
             <Footer />
@@ -70,16 +69,3 @@ const Leaderboards = () => {
 }
 
 export default Leaderboards
-
-const Loading = () => {
-    return (
-      <div
-        className="flex justify-center items-center"
-        style={{
-          height: "700px",
-        }}
-      >
-        <Spinner />
-      </div>
-    );
-}
