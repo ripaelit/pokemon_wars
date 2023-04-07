@@ -24,11 +24,11 @@ const Hero = () => {
                 Play Game
               </button>
             </Link>
-            <Link href="/https://youtu.be/cWDF1TGlQqA">
+            <a href="https://youtu.be/cWDF1TGlQqA" target="_blank">
               <button className="bg-transparent border-[0.5px] border-[#8A02FF] text-[#8A02FF] py-2 px-6 rounded-sm hover:bg-gradient-to-l from-[#8900FF] to-[#D000FF] hover:text-white">
                 How to Play
               </button>
-            </Link>
+            </a>
           </div>
         </div>
         <div className="w-10/12 md:w-2/4 mx-auto md:mx-0 my-8 order-2 ">
