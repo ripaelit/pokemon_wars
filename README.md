@@ -2,13 +2,14 @@
 
 Pokemon Wars is an ERC1155 upgradeable NFTs game that allows players to upgrade their NFTs, engage in battles with other players, and compete for prizes. With a new game starting every 24 hours, players can showcase their strategic skills and win the title of the highest scorer.
 
-This project is built on top of the [scaffold-eth-2](https://github.com/scaffold-eth/se-2) framework.
+This project is built on top of the [scaffold-eth-2](https://github.com/scaffold-eth/se-2) framework and uses Gelato Automate to automate winners of the previous game and start a new game after every 24 hours and thirdweb ERC1155 Contracts for upgradeble NFTs.
 
 #### Game Links:
 
 - Youtube Link: [Click here to learn how the game works](https://youtu.be/cWDF1TGlQqA)
 - Live Game Link: [Click here to play the live game](https://pokemon-wars.vercel.app/)
 - Polygonscan contract link: [Click here to see the contract code](https://mumbai.polygonscan.com/address/0x3662fe5524ee5e4FE1FBAb15b6C063f723CB1cfe#code)
+- [Gelato contract automation dashboard link](https://app.gelato.network/task/0x03a8c2a143a5979a71501e6b9517750b712e16d23b5ac0e98b66bfb003cc94e8?chainId=80001)
 
 ### Features
 
@@ -17,6 +18,7 @@ This project is built on top of the [scaffold-eth-2](https://github.com/scaffold
 - The outcome of the battles is determined by the attributes and upgrades of the NFTs, creating an exciting and competitive gameplay experience.
 - Daily Game Resets: A new game starts every 24 hours, allowing players to compete for the top spot on the leaderboard and win prizes.
 - Prizes: Players with the highest scores at the end of each game cycle can win prizes in the form of cryptocurrencies or other in-game rewards.
+- It automatically starts a new game after every 24 hours and pays the winner of the previous game after the game has ended using Gelato Automate.
 
 ## Getting Started
 
