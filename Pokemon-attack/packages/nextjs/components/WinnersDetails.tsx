@@ -1,7 +1,6 @@
 import React from "react";
 import { Address } from "./scaffold-eth";
 import { ethers } from "ethers";
-import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
 const WinnerDetails = (props: any): JSX.Element => {
 
